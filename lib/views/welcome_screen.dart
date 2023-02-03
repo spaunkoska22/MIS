@@ -13,11 +13,12 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepPurple[40],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('lib/assets/images/logo_app.png',
+            Image.asset('lib/assets/images/On_the_go_reminder_logo.png',
                 height: 130, width: 130),
             const SizedBox(height: 20),
             const Text(
@@ -25,7 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 50,
-                  color: Colors.deepPurple),
+                  color: Colors.deepPurpleAccent),
               textAlign: TextAlign.center,
             ),
             const Padding(
