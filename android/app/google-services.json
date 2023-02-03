@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "59085036286",
+    "project_id": "on-the-go-reminder",
+    "storage_bucket": "on-the-go-reminder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59085036286:android:8c9829bfe8db778413e3af",
+        "android_client_info": {
+          "package_name": "com.example.on_the_go_reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59085036286-mp1vslt9bps68bk1pfgetmadlcvbsof3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUR4OfYoNGhH-b56pfLiuceo94z3CnZhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59085036286-mp1vslt9bps68bk1pfgetmadlcvbsof3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
