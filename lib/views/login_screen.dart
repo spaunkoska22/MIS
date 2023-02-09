@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:on_the_go_reminder/views/welcome_screen.dart';
+import 'package:on_the_go_reminder/views/main_screen.dart';
+import 'package:on_the_go_reminder/views/register_screen.dart';
 
-import 'register_screen.dart';
-
-class SignInScreen extends StatefulWidget {
+class LogInScreen extends StatefulWidget {
   static const String idScreen = "signInScreen";
 
-  const SignInScreen({super.key});
+  const LogInScreen({super.key});
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _LogInScreenState createState() => _LogInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _LogInScreenState extends State<LogInScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -22,17 +21,15 @@ class _SignInScreenState extends State<SignInScreen> {
   bool emailError = false;
   String loginErrorMessage = "";
 
-  Future _signIn() async {
+  Future _logIn() async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((value) {
-        print("User signed in");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WelcomePage(title: "Sara")));
+        print("User logged in");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MainScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");
@@ -51,35 +48,34 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  PreferredSizeWidget _createAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text("On the Go Reminder"),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple[40],
       resizeToAvoidBottomInset: false,
+      appBar: _createAppBar(context),
       body: Container(
         alignment: Alignment.center,
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-              20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+              20, MediaQuery.of(context).size.height * 0.1, 20, 0),
           child: Column(
             children: <Widget>[
               Image.asset('lib/assets/images/On_the_go_reminder_logo.png',
-                  height: 130, width: 130),
-              const Text(
-                'On the Go Reminder',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.deepPurpleAccent),
-                textAlign: TextAlign.center,
-              ),
+                  height: 180, width: 180),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: emailController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: "Email",
                       errorText: emailError ? loginErrorMessage : null),
                 ),
@@ -90,15 +86,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: passwordController,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: "Password",
                       errorText: passwordError ? loginErrorMessage : null),
                   obscureText: true,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               signUpOption(),
-              SizedBox(height: 100),
+              const SizedBox(height: 80),
               TextButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
@@ -114,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => _signIn(),
+                onPressed: () => _logIn(),
                 child: Text(
                   "Log In".toUpperCase(),
                   style: const TextStyle(fontSize: 20),
@@ -131,16 +127,20 @@ class _SignInScreenState extends State<SignInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("No account? Create one for free! "),
+        const Text("Don't have an account? "),
         GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()));
-            },
-            child: const Text(
-              "SIGN UP here",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RegisterScreen()));
+          },
+          child: const Text(
+            "Register",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.deepPurple),
+          ),
+        ),
       ],
     );
   }

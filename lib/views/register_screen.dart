@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:on_the_go_reminder/views/welcome_screen.dart';
+import 'package:on_the_go_reminder/views/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String idScreen = "registerScreen";
@@ -22,10 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               email: emailController.text, password: passwordController.text)
           .then((value) {
         print("Created new account");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WelcomePage(title: "Sara")));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LogInScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");
@@ -33,34 +31,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  PreferredSizeWidget _createAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text("On the Go Reminder"),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple[40],
       resizeToAvoidBottomInset: false,
+      appBar: _createAppBar(context),
       body: Container(
         alignment: Alignment.center,
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-              20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+              20, MediaQuery.of(context).size.height * 0.1, 20, 0),
           child: Column(
             children: <Widget>[
               Image.asset('lib/assets/images/On_the_go_reminder_logo.png',
-                  height: 130, width: 130),
-              const Text(
-                'On the Go Reminder',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.deepPurpleAccent),
-                textAlign: TextAlign.center,
+                  height: 180, width: 180),
+              const Padding(
+                padding:
+                    EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 10),
+                //apply padding to all four sides
+                child: Text(
+                  'Please enter the details below to continue.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: emailController,
                   textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Enter your email"),
                 ),
@@ -70,13 +77,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: TextField(
                   controller: passwordController,
                   textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Enter your password"),
                   obscureText: true,
                 ),
               ),
-              SizedBox(height: 100),
+              const SizedBox(height: 80),
               TextButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
