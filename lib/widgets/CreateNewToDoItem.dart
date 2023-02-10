@@ -14,9 +14,10 @@ class CreateNewToDoItem extends StatefulWidget {
 class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
   final _titleController = TextEditingController();
   final _dateController = TextEditingController();
+  final _locationController = TextEditingController();
 
   void _submitData() {
-    if (_titleController.text.isEmpty || _dateController.text.isEmpty) {
+    if (_titleController.text.isEmpty || _dateController.text.isEmpty || _locationController.text.isEmpty) {
       return;
     }
 
@@ -35,6 +36,7 @@ class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
       id: nanoid(5),
       title: _titleController.text,
       date: date,
+      location: _locationController.text,
     );
     widget.addNewToDoItem(newToDoItem);
     Navigator.of(context).pop();
@@ -43,7 +45,7 @@ class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         children: [
           TextField(
@@ -55,6 +57,12 @@ class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
             decoration: const InputDecoration(
                 labelText: "Deadline (ex. 2022-05-10 10:00)"),
             controller: _dateController,
+            onSubmitted: (_) => _submitData(),
+          ),
+          TextField(
+            decoration: const InputDecoration(
+                labelText: "Location (ex. Ul. Slavej Planina br. 17)"),
+            controller: _locationController,
             onSubmitted: (_) => _submitData(),
           ),
         ],

@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static const String idScreen = "welcomeScreen";
-
-  const WelcomeScreen({super.key, required this.title});
-
-  final String title;
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();

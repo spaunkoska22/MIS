@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:on_the_go_reminder/views/welcome_screen.dart';
+//import 'package:on_the_go_reminder/views/welcome_screen.dart';
+import 'package:camera/camera.dart';
 import 'package:on_the_go_reminder/views/main_screen.dart';
-import 'package:on_the_go_reminder/views/welcome_screen.dart';
-import 'package:on_the_go_reminder/views/login_screen.dart';
-import 'package:on_the_go_reminder/views/register_screen.dart';
 
-Future main() async {
+List<CameraDescription> cameras = [];
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
@@ -16,6 +16,7 @@ Future main() async {
       projectId: "on-the-go-reminder",
     ),
   );
+  cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -25,10 +26,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'On the Go Reminder App',
-        theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-        ),
-        home: const WelcomeScreen(title: '191010'));
+      title: 'On the Go Reminder App',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const MainScreen(),
+    );
   }
 }

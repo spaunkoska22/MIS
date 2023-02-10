@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:on_the_go_reminder/models/ToDoItem.dart';
+import 'package:on_the_go_reminder/views/camera_screen.dart';
 import 'package:on_the_go_reminder/widgets/CreateNewToDoItem.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
 
@@ -21,36 +22,43 @@ class _MainScreenState extends State<MainScreen> {
       id: "1",
       title: "Dinner with family",
       date: DateTime.parse("2023-02-11 20:00:00"),
+      location: "Leonardo Pizzeria",
     ),
     ToDoItem(
       id: "2",
       title: "Do Hair",
       date: DateTime.parse("2023-03-05 14:00:00"),
+      location: "Hair Studio Elite",
     ),
     ToDoItem(
       id: "3",
       title: "Do Nails",
       date: DateTime.parse("2023-03-07 11:00:00"),
+      location: "Perfecto Nails Studio",
     ),
     ToDoItem(
       id: "4",
       title: "Mum's Birthday",
       date: DateTime.parse("2023-03-25 00:00:00"),
+      location: "Home",
     ),
     ToDoItem(
       id: "5",
       title: "Presentation in class",
       date: DateTime.parse("2023-04-10 09:50:00"),
+      location: "Online",
     ),
     ToDoItem(
       id: "6",
       title: "Exam",
       date: DateTime.parse("2023-04-14 13:00:00"),
+      location: "Online",
     ),
     ToDoItem(
       id: "7",
       title: "Wedding",
       date: DateTime.parse("2023-05-26 20:00:00"),
+      location: "Hotel Alexander Palace",
     ),
   ];
 
@@ -86,12 +94,16 @@ class _MainScreenState extends State<MainScreen> {
     return dateParts[0] + ' at ' + modifiedTime;
   }
 
+  String _modifyLocation(String location) {
+    return 'Location: ' + location;
+  }
+
   Future _signOut() async {
     try {
       await FirebaseAuth.instance.signOut().then((value) {
         print("User signed out");
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LogInScreen()));
+            context, MaterialPageRoute(builder: (context) => const LogInScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");
@@ -122,7 +134,12 @@ class _MainScreenState extends State<MainScreen> {
       _selectedIndex = index;
     });
     print(_selectedIndex);
-    if (_selectedIndex == 2) {
+    if (_selectedIndex == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CameraScreen()),
+      );
+    } else if (_selectedIndex == 2) {
       _signOut();
     }
   }
@@ -157,19 +174,28 @@ class _MainScreenState extends State<MainScreen> {
                           itemCount: _items.length,
                           itemBuilder: (ctx, index) {
                             return Card(
-                              elevation: 15,
+                              elevation: 5,
                               margin: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15),
+                                  vertical: 10, horizontal: 15),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                ),
+                                side: BorderSide(width: 3, color: Colors.black54),
+                              ),
                               child: ListTile(
                                 tileColor: Colors.grey[100],
                                 title: Text(
                                   _items[index].title.toUpperCase(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.deepPurple),
+                                      color: Colors.deepPurpleAccent),
                                 ),
                                 subtitle: Text(
-                                  _modifyDate(_items[index].date),
+                                    _modifyLocation(_items[index].location) + "\n"  + _modifyDate(_items[index].date),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),

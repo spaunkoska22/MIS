@@ -4,8 +4,6 @@ import 'package:on_the_go_reminder/views/main_screen.dart';
 import 'package:on_the_go_reminder/views/register_screen.dart';
 
 class LogInScreen extends StatefulWidget {
-  static const String idScreen = "signInScreen";
-
   const LogInScreen({super.key});
 
   @override
