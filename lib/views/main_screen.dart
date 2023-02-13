@@ -6,6 +6,7 @@ import 'package:on_the_go_reminder/models/ToDoItem.dart';
 import 'package:on_the_go_reminder/views/camera_screen.dart';
 import 'package:on_the_go_reminder/widgets/CreateNewToDoItem.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
+import 'package:on_the_go_reminder/views/location_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -102,8 +103,8 @@ class _MainScreenState extends State<MainScreen> {
     try {
       await FirebaseAuth.instance.signOut().then((value) {
         print("User signed out");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LogInScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");
@@ -116,36 +117,53 @@ class _MainScreenState extends State<MainScreen> {
       title: const Text("On the Go Reminder"),
       actions: [
         IconButton(
-            icon: const Icon(Icons.add_circle),
-            onPressed: () => _showModal(context)),
-        //ElevatedButton(
-        //onPressed: _signOut,
-        //child: const Text("Sign Out"),
-        // )
+          icon: const Icon(Icons.logout),
+          onPressed: _signOut,
+        ),
       ],
     );
   }
 
   bool isChecked = false;
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
+  List<ToDoItem> selectedItems = [];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
-    print(_selectedIndex);
-    if (_selectedIndex == 0) {
+    print(selectedIndex);
+    if (selectedIndex == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
+    } else if (selectedIndex == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const CameraScreen()),
       );
-    } else if (_selectedIndex == 2) {
-      _signOut();
+    } else if (selectedIndex == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MapScreen()),
+      );
     }
   }
 
-  Widget _createBody(BuildContext context) {
+  Widget createBody(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Positioned(
+        top: 60,
+        right: 20,
+        child: FloatingActionButton(
+          onPressed: () {
+            _showModal(context);
+          },
+          backgroundColor: Colors.deepOrangeAccent,
+          child: const Icon(Icons.add_task),
+        ),
+      ),
       body: Container(
         child: Scrollbar(
           thumbVisibility: true,
@@ -177,14 +195,8 @@ class _MainScreenState extends State<MainScreen> {
                               elevation: 5,
                               margin: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                ),
-                                side: BorderSide(width: 3, color: Colors.black54),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
                               child: ListTile(
                                 tileColor: Colors.grey[100],
@@ -195,7 +207,9 @@ class _MainScreenState extends State<MainScreen> {
                                       color: Colors.deepPurpleAccent),
                                 ),
                                 subtitle: Text(
-                                    _modifyLocation(_items[index].location) + "\n"  + _modifyDate(_items[index].date),
+                                  _modifyLocation(_items[index].location) +
+                                      "\n" +
+                                      _modifyDate(_items[index].date),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -205,13 +219,18 @@ class _MainScreenState extends State<MainScreen> {
                                   icon: const Icon(Icons.delete),
                                 ),
                                 leading: Checkbox(
-                                  value: isChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isChecked = value!;
-                                    });
-                                  },
-                                ),
+                                    value:
+                                        selectedItems.contains(_items[index]),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (selectedItems
+                                            .contains(_items[index])) {
+                                          selectedItems.remove(_items[index]);
+                                        } else {
+                                          selectedItems.add(_items[index]);
+                                        }
+                                      });
+                                    }),
                               ),
                             );
                           },
@@ -229,19 +248,19 @@ class _MainScreenState extends State<MainScreen> {
         unselectedItemColor: Colors.blueGrey[900],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Camera',
+            icon: Icon(Icons.edit_calendar),
+            label: 'Calendar reminder',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Location',
+            icon: Icon(Icons.add_a_photo),
+            label: 'Photo reminder',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
+            icon: Icon(Icons.add_location_alt),
+            label: 'Location reminder',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         onTap: _onItemTapped,
       ),
     );
@@ -251,7 +270,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _createAppBar(context),
-      body: _createBody(context),
+      body: createBody(context),
     );
   }
 }
