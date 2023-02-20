@@ -8,6 +8,7 @@ import 'package:on_the_go_reminder/widgets/CreateNewToDoItem.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
 import 'package:on_the_go_reminder/views/location_screen.dart';
 import 'package:on_the_go_reminder/views/calendar_screen.dart';
+import 'package:on_the_go_reminder/services/notifications.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,6 +19,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final ScrollController controller = ScrollController();
+  late final LocalNotificationsService service;
+
+  @override
+  void initState(){
+    service = LocalNotificationsService();
+    service.initialize();
+    super.initState();
+  }
 
   final List<ToDoItem> _items = [
     ToDoItem(
@@ -214,10 +223,25 @@ class _MainScreenState extends State<MainScreen> {
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
-                                trailing: IconButton(
-                                  onPressed: () =>
-                                      _deleteToDoItem(_items[index].id),
-                                  icon: const Icon(Icons.delete),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () async {
+                                        await service.showScheduledNotification(
+                                            id: 0,
+                                            title: 'On the Go Reminder',
+                                            body:
+                                                'This is your reminder to do your tasks!',
+                                            seconds: 3);
+                                      },
+                                      icon: const Icon(Icons.notification_add),
+                                    ),
+                                    IconButton(
+                                        onPressed: () =>
+                                            _deleteToDoItem(_items[index].id),
+                                        icon: const Icon(Icons.delete))
+                                  ],
                                 ),
                                 leading: Checkbox(
                                     value:
