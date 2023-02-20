@@ -7,6 +7,7 @@ import 'package:on_the_go_reminder/views/camera_screen.dart';
 import 'package:on_the_go_reminder/widgets/CreateNewToDoItem.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
 import 'package:on_the_go_reminder/views/location_screen.dart';
+import 'package:on_the_go_reminder/views/calendar_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -136,7 +137,7 @@ class _MainScreenState extends State<MainScreen> {
     if (selectedIndex == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
+        MaterialPageRoute(builder: (context) => CalendarScreen(_items)),
       );
     } else if (selectedIndex == 1) {
       Navigator.push(
