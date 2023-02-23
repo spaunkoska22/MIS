@@ -9,6 +9,7 @@ import 'package:on_the_go_reminder/views/login_screen.dart';
 import 'package:on_the_go_reminder/views/location_screen.dart';
 import 'package:on_the_go_reminder/views/calendar_screen.dart';
 import 'package:on_the_go_reminder/services/notifications.dart';
+import 'package:on_the_go_reminder/widgets/NotificationForm.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -227,20 +228,53 @@ class _MainScreenState extends State<MainScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      onPressed: () async {
-                                        await service.showScheduledNotification(
-                                            id: 0,
-                                            title: 'On the Go Reminder',
-                                            body:
-                                                'This is your reminder to do your tasks!',
-                                            seconds: 3);
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            return const AlertDialog(
+                                              title: Text('Set reminder'),
+                                              content: NotificationForm(),
+                                            );
+                                          },
+                                        );
                                       },
                                       icon: const Icon(Icons.notification_add),
                                     ),
                                     IconButton(
-                                        onPressed: () =>
-                                            _deleteToDoItem(_items[index].id),
-                                        icon: const Icon(Icons.delete))
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Confirm Delete'),
+                                              content: const Text('Are you sure you want to delete this item?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    _deleteToDoItem(
+                                                        _items[index].id);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  style: TextButton.styleFrom(
+                                                    textStyle: const TextStyle(
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                  child: const Text('Delete'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                    ),
                                   ],
                                 ),
                                 leading: Checkbox(
@@ -274,15 +308,15 @@ class _MainScreenState extends State<MainScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.edit_calendar),
-            label: 'Calendar reminder',
+            label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_a_photo),
-            label: 'Photo reminder',
+            label: 'Photo',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_location_alt),
-            label: 'Location reminder',
+            label: 'Location',
           ),
         ],
         currentIndex: selectedIndex,

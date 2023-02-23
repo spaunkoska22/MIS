@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:on_the_go_reminder/models/ToDoItem.dart';
+import 'package:on_the_go_reminder/views/main_screen.dart';
 
 class CreateNewToDoItem extends StatefulWidget {
   final Function addNewToDoItem;
@@ -64,6 +65,16 @@ class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
                 labelText: "Location (ex. Ul. Slavej Planina br. 17)"),
             controller: _locationController,
             onSubmitted: (_) => _submitData(),
+          ),
+          Center(
+            child: TextButton(
+              onPressed: () => {_submitData()},
+              style: TextButton.styleFrom(
+                backgroundColor: Colors
+                    .deepOrangeAccent, // Set background color of the button
+              ),
+              child: const Text('Save', style: TextStyle(color: Colors.white)),
+            ),
           ),
         ],
       ),
