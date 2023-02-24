@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:on_the_go_reminder/views/main_screen.dart';
+import 'package:on_the_go_reminder/views/welcome_screen.dart';
 import 'package:camera/camera.dart';
 
 List<CameraDescription> cameras = [];
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

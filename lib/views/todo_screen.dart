@@ -3,30 +3,59 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:on_the_go_reminder/models/ToDoItem.dart';
-import 'package:on_the_go_reminder/views/camera_screen.dart';
+import 'package:on_the_go_reminder/services/camera_screen.dart';
 import 'package:on_the_go_reminder/widgets/CreateNewToDoItem.dart';
 import 'package:on_the_go_reminder/views/login_screen.dart';
-import 'package:on_the_go_reminder/views/location_screen.dart';
+import 'package:on_the_go_reminder/services/googlemaps.dart';
 import 'package:on_the_go_reminder/views/calendar_screen.dart';
 import 'package:on_the_go_reminder/services/notifications.dart';
 import 'package:on_the_go_reminder/widgets/NotificationForm.dart';
+import 'package:on_the_go_reminder/services/light_sensor.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class ToDoScreen extends StatefulWidget {
+  const ToDoScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _ToDoScreenState createState() => _ToDoScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _ToDoScreenState extends State<ToDoScreen> {
   final ScrollController controller = ScrollController();
   late final LocalNotificationsService service;
+  late LightSensor _lightSensor;
+  bool _notificationShown = false;
 
   @override
-  void initState(){
+  void initState() {
     service = LocalNotificationsService();
     service.initialize();
     super.initState();
+
+    // Create a LightSensor instance with a background color
+    _lightSensor = LightSensor(
+      backgroundColor: Colors.white,
+      // Provide a background color here
+      onLightLevelChanged: (double lightLevel) {
+        // Show a notification if the light level is below a certain threshold
+        if (!_notificationShown && lightLevel < 10) {
+          service.showNotification(
+            id: 0,
+            title: 'Low light level detected!',
+            body: 'The current light level is ${lightLevel.toStringAsFixed(2)}. Move to a lighter place to see better.',
+          );
+          _notificationShown = true;
+        }
+      },
+    );
+
+    _lightSensor.start();
+
+  }
+
+  @override
+  void dispose() {
+    _lightSensor.dispose();
+    super.dispose();
   }
 
   final List<ToDoItem> _items = [
@@ -247,8 +276,10 @@ class _MainScreenState extends State<MainScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: const Text('Confirm Delete'),
-                                              content: const Text('Are you sure you want to delete this item?'),
+                                              title:
+                                                  const Text('Confirm Delete'),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this item?'),
                                               actions: <Widget>[
                                                 TextButton(
                                                   onPressed: () =>

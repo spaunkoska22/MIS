@@ -51,6 +51,10 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   timezone: ^0.9.1
   geolocator: ^9.0.2
+  location: ^4.4.0
+  carousel_slider: ^4.2.1
+  sensors: ^2.0.3
+  light_sensor: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -106,3 +110,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+fonts:
+  - family: Pacifico
+    fonts:
+      - asset: fonts/Pacifico-Regular.ttf

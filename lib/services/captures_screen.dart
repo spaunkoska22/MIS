@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:on_the_go_reminder/views/preview_screen.dart';
+import 'package:on_the_go_reminder/services/preview_screen.dart';
 
 class CapturesScreen extends StatelessWidget {
   final List<File> imageFileList;

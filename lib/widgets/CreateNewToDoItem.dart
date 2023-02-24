@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:on_the_go_reminder/models/ToDoItem.dart';
-import 'package:on_the_go_reminder/views/main_screen.dart';
+import 'package:on_the_go_reminder/views/todo_screen.dart';
 
 class CreateNewToDoItem extends StatefulWidget {
   final Function addNewToDoItem;

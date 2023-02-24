@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:on_the_go_reminder/views/main_screen.dart';
 import 'package:on_the_go_reminder/views/register_screen.dart';
+import 'package:on_the_go_reminder/views/todo_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -27,7 +27,7 @@ class _LogInScreenState extends State<LogInScreen> {
           .then((value) {
         print("User logged in");
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MainScreen()));
+            MaterialPageRoute(builder: (context) => const ToDoScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");

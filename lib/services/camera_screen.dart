@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:on_the_go_reminder/views/preview_screen.dart';
+import 'package:on_the_go_reminder/services/preview_screen.dart';
 
 import '../main.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/notifications.dart';
+import 'package:on_the_go_reminder/views/todo_screen.dart';
 
 class NotificationForm extends StatefulWidget {
   const NotificationForm({Key? key}) : super(key: key);
@@ -64,6 +65,10 @@ class _NotificationFormState extends State<NotificationForm> {
                   title: 'On the Go Reminder',
                   body: 'This is your reminder to do your tasks!',
                   duration: _selectedDuration,
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToDoScreen()),
                 );
               }
             },
