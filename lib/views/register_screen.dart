@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           .then((value) {
         print("Created new account");
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => LogInScreen()));
+            MaterialPageRoute(builder: (context) => const LogInScreen()));
       });
     } on FirebaseAuthException catch (e) {
       print("ERROR HERE");

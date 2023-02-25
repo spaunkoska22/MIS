@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:on_the_go_reminder/models/ToDoItem.dart';
 import 'package:on_the_go_reminder/views/todo_screen.dart';
@@ -64,6 +65,11 @@ class _CreateNewToDoItemState extends State<CreateNewToDoItem> {
             decoration: const InputDecoration(
                 labelText: "Location (ex. Ul. Slavej Planina br. 17)"),
             controller: _locationController,
+            onSubmitted: (_) => _submitData(),
+          ),
+          TextField(
+            decoration:
+                const InputDecoration(labelText: "Priority of task: (ex. 1)"),
             onSubmitted: (_) => _submitData(),
           ),
           Center(

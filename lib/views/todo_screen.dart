@@ -64,42 +64,49 @@ class _ToDoScreenState extends State<ToDoScreen> {
       title: "Dinner with family",
       date: DateTime.parse("2023-02-11 20:00:00"),
       location: "Leonardo Pizzeria",
+      priority: 1,
     ),
     ToDoItem(
       id: "2",
       title: "Do Hair",
       date: DateTime.parse("2023-03-05 14:00:00"),
       location: "Hair Studio Elite",
+      priority: 2,
     ),
     ToDoItem(
       id: "3",
       title: "Do Nails",
       date: DateTime.parse("2023-03-07 11:00:00"),
       location: "Perfecto Nails Studio",
+      priority: 3,
     ),
     ToDoItem(
       id: "4",
       title: "Mum's Birthday",
       date: DateTime.parse("2023-03-25 00:00:00"),
       location: "Home",
+      priority: 1,
     ),
     ToDoItem(
       id: "5",
       title: "Presentation in class",
       date: DateTime.parse("2023-04-10 09:50:00"),
       location: "Online",
+      priority: 1,
     ),
     ToDoItem(
       id: "6",
       title: "Exam",
       date: DateTime.parse("2023-04-14 13:00:00"),
       location: "Online",
+      priority: 1,
     ),
     ToDoItem(
       id: "7",
       title: "Wedding",
       date: DateTime.parse("2023-05-26 20:00:00"),
       location: "Hotel Alexander Palace",
+      priority: 2,
     ),
   ];
 
@@ -192,6 +199,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
   }
 
   Widget createBody(BuildContext context) {
+    _items.sort((a, b) => a.priority.compareTo(b.priority));
     return Scaffold(
       floatingActionButton: Positioned(
         top: 60,
