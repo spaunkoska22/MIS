@@ -193,7 +193,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     } else if (selectedIndex == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MapScreen()),
+        MaterialPageRoute(builder: (context) => MapScreen()),
       );
     }
   }
